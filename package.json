@@ -1,0 +1,26 @@
+{
+  "name": "projeto-01",
+  "version": "1.0.0",
+  "description": "primeiro projeto backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoaoNunesPaiva/BackEnd01.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoaoNunesPaiva/BackEnd01/issues"
+  },
+  "homepage": "https://github.com/JoaoNunesPaiva/BackEnd01#readme",
+  "dependencies": {
+    "express": "^5.0.0-beta.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
