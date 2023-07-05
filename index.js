@@ -6,13 +6,15 @@ app.get("/", (req, res) => {
   res.send("Hi!");
 });
 
-app.get("/hello", (req, res) => {
-  res.send("Hello World!");
-});
 
-app.get("/bye", (req, res) => {
-  res.send("Bye World!");
-});
+
+// app.get("/hello", (req, res) => {
+//   res.send("Hello World!");
+// });
+
+// app.get("/bye", (req, res) => {
+//   res.send("Bye World!");
+// });
 
 // é a mesma coisa que em cima
 // function getRoot(req,res){
