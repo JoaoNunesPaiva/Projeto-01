@@ -2,6 +2,8 @@ const { json } = require("express");
 const express = require("express"); // importar o express - previamente instalado
 const app = express(); // criar aplicação do express
 
+const HTTP_STATUS_OK = 200;
+const HTTP_STATUS_NOT_FOUND = 404;
 //uma variável com uma Array com 3 objetos
 const db = [
   {
@@ -34,6 +36,21 @@ const db = [
 
 //REST
 
+//Middleware - executar código antes da reta (neste caso)
+function logger(req, res, next) {
+  const log = {
+    method: req.method,
+    path: req.path,
+  };
+  //console.log(`${req.method} ${req.path}`);
+  next();
+
+  log.status = res.statusCode;
+  console.log(log);
+}
+
+app.use(logger); //vai usar sempre nas rotas após
+
 // GET https://api.edit.pt/movies => GET /movies     (ROTA)
 app.get("/movies", (req, res) => {
   //res.json(db); //This method sends a JSON response.
@@ -48,20 +65,24 @@ app.get("/movies", (req, res) => {
   res.status(200).json(movies);
 });
 
+//GET /movies/:id
 app.get("/movies/:id", (req, res) => {
   //get ID from request
   //fetch record from DB
   //return json
-  const id = parseInt(req.params.id);
-  let movie = null;
-
-  for (let index = 0; index < db.length; index++) {
-    if (id === db[index].id);
-    {
-      movie = db[index];
-      break;
-    }
+  //const id = parseInt(req.params.id);
+  const movie = db.find((m) => m.id === parseInt(req.params.id));
+  if (!movie) {
+    return res.status(HTTP_STATUS_NOT_FOUND).json({ error: "Movie not found" });
   }
+
+  // for (let index = 0; index < db.length; index++) {
+  //   if (id === db[index].id);
+  //   {
+  //     movie = db[index];
+  //     break;
+  //   }
+
   res.status(200).json(movie);
 });
 
@@ -80,6 +101,8 @@ app.get("/movies/:id", (req, res) => {
 // function getRoot(req,res){
 // }
 // app.get("/", getRoot)
+
+// ERROR HANDLING
 
 app.listen(3000, () => {
   console.log("Engine Started...");
