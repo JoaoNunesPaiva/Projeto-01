@@ -1,6 +1,7 @@
 const { json } = require("express");
 const express = require("express"); // importar o express - previamente instalado
 const app = express(); // criar aplicação do express
+const { logger } = require("./middleware"); //import do modulo log.js
 
 const HTTP_STATUS_OK = 200;
 const HTTP_STATUS_NOT_FOUND = 404;
@@ -35,19 +36,6 @@ const db = [
 // GET https://api.edit.pt/directors => GET /directors
 
 //REST
-
-//Middleware - executar código antes da reta (neste caso)
-function logger(req, res, next) {
-  const log = {
-    method: req.method,
-    path: req.path,
-  };
-  //console.log(`${req.method} ${req.path}`);
-  next();
-
-  log.status = res.statusCode;
-  console.log(log);
-}
 
 app.use(logger); //vai usar sempre nas rotas após
 
@@ -103,6 +91,10 @@ app.get("/movies/:id", (req, res) => {
 // app.get("/", getRoot)
 
 // ERROR HANDLING
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: "Internal Error" });
+});
 
 app.listen(3000, () => {
   console.log("Engine Started...");
